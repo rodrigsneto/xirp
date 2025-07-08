@@ -1,0 +1,12 @@
+{
+  "name": "xirp-api",
+  "version": "1.0.0",
+  "description": "backend do xirp",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run dev"
+  }
+}
