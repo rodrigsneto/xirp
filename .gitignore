@@ -32,3 +32,4 @@ coverage/
 
 # Sequelize CLI (se usar)
 .sequelize*
+/src/generated/prisma

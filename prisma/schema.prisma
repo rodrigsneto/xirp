@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  nome       String
+  email      String    @unique
+  senhaHash  String
+  role       Role
+  ativo      Boolean   @default(true)
+  criadoEm   DateTime  @default(now())
+  plantoesInternos Plantao[] @relation("Interno")
+  plantoesExternos Plantao[] @relation("Externo")
+  atendimentosCriados Atendimento[] @relation("Criador")
+}
+
+model Plantao {
+  id                    Int       @id @default(autoincrement())
+  data                  DateTime  @unique
+  houveAtendimentoExterno Boolean @default(false)
+  observacoes           String?
+  criadoEm              DateTime  @default(now())
+
+  plantonistaInternoId  Int?
+  plantonistaInterno    User?     @relation("Interno", fields: [plantonistaInternoId], references: [id])
+
+  plantonistaExternoId  Int?
+  plantonistaExterno    User?     @relation("Externo", fields: [plantonistaExternoId], references: [id])
+
+  atendimentos          Atendimento[]
+}
+
+model Atendimento {
+  id           Int      @id @default(autoincrement())
+  cliente      String
+  assunto      String
+  requisitante String?
+  criadoEm     DateTime @default(now())
+
+  plantaoId    Int
+  plantao      Plantao  @relation(fields: [plantaoId], references: [id])
+
+  criadoPorId  Int?
+  criadoPor    User?    @relation("Criador", fields: [criadoPorId], references: [id])
+}
+
+enum Role {
+  admin
+  editor
+  viewer
+}

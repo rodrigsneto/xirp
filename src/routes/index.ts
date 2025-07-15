@@ -1,16 +1,10 @@
 import { Router } from 'express';
 import plantaoRouter from './plantoes';
-// import usersRoutes from './users.routes';
+import authRoutes from './authRoutes';
 
 const router = Router();
 
-// router.use('/', router)
-router.use('/plantoes', plantaoRouter)
-
-// router.get("/", (req, res) => {
-//     res.send("ROTA RAIZ: /")
-// })
-
-// router.use('/users', usersRoutes);
+router.use('/plantoes', plantaoRouter);
+router.use('/auth', authRoutes);
 
 export default router;
