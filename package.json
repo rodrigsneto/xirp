@@ -7,6 +7,26 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "npm run dev"
+    "dev": "node --import=tsx --watch ./src/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "node-ts": "^8.0.6",
+    "sequelize": "^6.37.7",
+    "tsx": "^4.20.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.12",
+    "@types/sequelize": "^4.28.20",
+    "prisma": "^6.11.1",
+    "sequelize-typescript": "^2.1.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
   }
 }
