@@ -8,46 +8,48 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  nome       String
-  email      String    @unique
-  senhaHash  String
-  role       Role
-  ativo      Boolean   @default(true)
-  criadoEm   DateTime  @default(now())
-  plantoesInternos Plantao[] @relation("Interno")
-  plantoesExternos Plantao[] @relation("Externo")
-  atendimentosCriados Atendimento[] @relation("Criador")
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senhaHash String
+  role      Role     @default(viewer)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Plantonista {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  telefone  String?
+  ativo     Boolean  @default(true)
+
+  plantoesComoInterno Plantao[] @relation("Interno")
+  plantoesComoExterno Plantao[] @relation("Externo")
 }
 
 model Plantao {
-  id                    Int       @id @default(autoincrement())
-  data                  DateTime  @unique
-  houveAtendimentoExterno Boolean @default(false)
-  observacoes           String?
-  criadoEm              DateTime  @default(now())
+  id                     Int         @id @default(autoincrement())
+  data                   DateTime    @unique
+  plantonistaInternoId   Int
+  plantonistaExternoId   Int
+  houveAtendimentoExterno Boolean
+  observacoes            String?
 
-  plantonistaInternoId  Int?
-  plantonistaInterno    User?     @relation("Interno", fields: [plantonistaInternoId], references: [id])
+  plantonistaInterno     Plantonista @relation("Interno", fields: [plantonistaInternoId], references: [id])
+  plantonistaExterno     Plantonista @relation("Externo", fields: [plantonistaExternoId], references: [id])
 
-  plantonistaExternoId  Int?
-  plantonistaExterno    User?     @relation("Externo", fields: [plantonistaExternoId], references: [id])
-
-  atendimentos          Atendimento[]
+  atendimentos           Atendimento[]
 }
 
 model Atendimento {
-  id           Int      @id @default(autoincrement())
-  cliente      String
-  assunto      String
-  requisitante String?
-  criadoEm     DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  plantaoId     Int
+  cliente       String
+  assunto       String
+  requisitante  String
 
-  plantaoId    Int
-  plantao      Plantao  @relation(fields: [plantaoId], references: [id])
-
-  criadoPorId  Int?
-  criadoPor    User?    @relation("Criador", fields: [criadoPorId], references: [id])
+  plantao       Plantao  @relation(fields: [plantaoId], references: [id])
 }
 
 enum Role {

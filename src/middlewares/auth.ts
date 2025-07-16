@@ -14,7 +14,6 @@ export interface TokenPayload {
   exp: number;
 }
 
-// Estendendo o tipo Request para incluir o usuário
 export interface AuthenticatedRequest extends Request {
   usuario?: {
     id: number;

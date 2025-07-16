@@ -7,7 +7,7 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
-// REGISTRAR UM NOVO USUÁRIO
+// CRIAR USUÁRIO
 
 export const register = async (req: Request, res: Response) => {
   const { nome, email, senha, role } = req.body;
@@ -28,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
         nome,
         email,
         senhaHash,
-        role: role in Role ? role : 'viewer', // garante que o role é válido
+        role: role in Role ? role : 'viewer',
       },
     });
 
